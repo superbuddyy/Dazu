@@ -7,7 +7,7 @@
         {{ $t('table.search') }}
       </el-button>
     </div>
-    <el-table v-loading="loading" :data="list" border fit highlight-current-row style="width: 100%">
+    <el-table v-loading="loading" :data="list" border fit highlight-current-row style="width: 100%" :row-class-name="rowClass">
       <el-table-column align="center" label="ID" width="80">
         <template slot-scope="scope">
           <span>
@@ -133,6 +133,11 @@ export default {
     this.getList();
   },
   methods: {
+    rowClass({ row, rowIndex }) {
+      if (row.visible_from_date !== null && row.status === 'active') {
+        return 'warning-row';
+      }
+    },
     closeDialog() {
       this.dialogVisible = false;
     },
@@ -177,7 +182,10 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+.el-table .warning-row {
+  background: oldlace;
+}
 .edit-input {
   padding-right: 100px;
 }
