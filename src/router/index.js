@@ -102,46 +102,19 @@ export const constantRoutes = [
       },
     ],
   },
-  // {
-  //   path: '/documentation',
-  //   component: Layout,
-  //   redirect: '/documentation/index',
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import('@/views/documentation/index'),
-  //       name: 'Documentation',
-  //       meta: { title: 'documentation', icon: 'documentation', noCache: true },
-  //     },
-  //   ],
-  // },
-  // {
-  //   path: '/profile',
-  //   component: Layout,
-  //   redirect: '/profile/edit',
-  //   children: [
-  //     {
-  //       path: 'edit',
-  //       component: () => import('@/views/users/SelfProfile'),
-  //       name: 'SelfProfile',
-  //       meta: { title: 'userProfile', icon: 'user', noCache: true },
-  //     },
-  //   ],
-  // },
-  // {
-  //   path: '/guide',
-  //   component: Layout,
-  //   redirect: '/guide/index',
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import('@/views/guide/index'),
-  //       name: 'Guide',
-  //       meta: { title: 'guide', icon: 'guide', noCache: true },
-  //     },
-  //   ],
-  // },
-  // elementUiRoutes,
+  {
+    path: '/faq',
+    component: Layout,
+    redirect: 'faq',
+    children: [
+      {
+        path: 'faq',
+        component: () => import('@/views/faq/index'),
+        name: 'FAQ',
+        meta: { title: 'FAQ', icon: 'el-icon-question', noCache: true },
+      },
+    ],
+  },
 ];
 
 export const asyncRoutes = [
