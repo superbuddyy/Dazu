@@ -115,6 +115,19 @@ export const constantRoutes = [
       },
     ],
   },
+  {
+    path: '/popup',
+    component: Layout,
+    redirect: 'popup',
+    children: [
+      {
+        path: 'popup',
+        component: () => import('@/views/popup/index'),
+        name: 'Popup',
+        meta: { title: 'Popup', icon: 'el-icon-monitor', noCache: true },
+      },
+    ],
+  },
 ];
 
 export const asyncRoutes = [

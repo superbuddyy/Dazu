@@ -9,7 +9,7 @@
           <div class="card-panel-text">
             Użytkownicy
           </div>
-          <count-to :start-val="0" :end-val="stats.users" :duration="2600" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="stats.users" class="card-panel-num" />
         </div>
       </div>
     </el-col>
@@ -22,7 +22,7 @@
           <div class="card-panel-text">
             Aktywne ogłoszenia
           </div>
-          <count-to :start-val="0" :end-val="stats.active_offers" :duration="3000" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="stats.active_offers" class="card-panel-num" />
         </div>
       </div>
     </el-col>
@@ -35,7 +35,7 @@
           <div class="card-panel-text">
             Wszystkie ogłoszenia
           </div>
-          <count-to :start-val="0" :end-val="stats.all_offers" :duration="3200" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="stats.all_offers" class="card-panel-num" />
         </div>
       </div>
     </el-col>
@@ -48,7 +48,7 @@
           <div class="card-panel-text">
             Zakupione pakiety
           </div>
-          <count-to :start-val="0" :end-val="stats.subscriptions" :duration="3600" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="stats.subscriptions" class="card-panel-num" />
         </div>
       </div>
     </el-col>
