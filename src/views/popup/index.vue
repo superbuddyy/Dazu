@@ -47,6 +47,7 @@
       :dialog-visible="insertDialog"
       :selected-popup="selectedPopup"
       @item-edited="itemEdited"
+      @close="insertDialog = false"
     />
   </div>
 </template>

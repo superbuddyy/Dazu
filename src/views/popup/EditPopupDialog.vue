@@ -135,6 +135,7 @@ export default {
       }
 
       const result = await popupResource.edit(this.local_id, formData);
+      this.selectedPopup = {};
       this.$emit('item-edited', result);
     },
   },
