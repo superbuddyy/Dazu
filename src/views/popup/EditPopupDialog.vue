@@ -84,6 +84,7 @@ export default {
       local_id: null,
       local_title: '',
       local_content: '',
+      local_image: '',
       localFileList: [],
       customToolbar: [
         ['bold', 'italic', 'underline'],
@@ -92,13 +93,13 @@ export default {
     };
   },
   watch: {
-    selectedPopup(value) {
+    async selectedPopup(value) {
       this.local_id = value.id;
       this.local_title = value.title;
       this.local_content = value.content;
       this.local_show_again_after = value.showAgainAfter;
-      this.local_image = this.urlToObject('/storage/' + value.image.path_name);
-      this.localFileList[0] = this.local_image;
+      this.local_image = await this.urlToObject('/storage/' + value.image.path_name);
+      this.localFileList[0] = await this.local_image;
     },
   },
   methods: {
