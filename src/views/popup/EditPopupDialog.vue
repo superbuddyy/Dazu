@@ -13,33 +13,27 @@
     <el-input v-model="local_show_again_after" placeholder="Pokaż ponownie za (dni)" />
     <el-upload
       action="#"
-      :show-file-list="true"
+      :show-file-list="false"
       list-type="picture-card"
       accept="image/jpeg,image/png"
       :limit="1"
-      :multiple="true"
+      :multiple="false"
       :on-change="handleChange"
       :auto-upload="false"
       :file-list="localFileList"
     >
       <i slot="default" class="el-icon-plus" />
-      <div slot="file" slot-scope="{file}">
+    </el-upload>
+    <div v-if="local_image">
+      <div v-for="(element, index) in localFileList" :key="index" class="image-preview">
         <img
           class="el-upload-list__item-thumbnail"
-          :src="file.url"
+          :src="element.url"
           alt=""
         >
-        <span class="el-upload-list__item-actions">
-          <span
-            v-if="!disabled"
-            class="el-upload-list__item-delete"
-            @click="removeImage(file)"
-          >
-            <i class="el-icon-delete" />
-          </span>
-        </span>
+        <i class="el-icon-delete-solid delete-btn" @click="removeImage(index)" />
       </div>
-    </el-upload>
+    </div>
 
     <span slot="footer" class="dialog-footer">
       <el-button @click="handleClose()">Zamknij</el-button>
@@ -98,8 +92,9 @@ export default {
       this.local_title = value.title;
       this.local_content = value.content;
       this.local_show_again_after = value.showAgainAfter;
-      this.local_image = await this.urlToObject('/storage/' + value.image.path_name);
-      this.localFileList[0] = await this.local_image;
+      const img = await this.urlToObject('/storage/' + value.image.path_name);
+      this.local_image = img;
+      this.localFileList[0] = img;
     },
   },
   methods: {
@@ -156,5 +151,15 @@ export default {
   }
   .el-input {
     margin: 10px 0;
+  }
+  .image-preview {
+    position: relative;
+  }
+  .delete-btn {
+    position: absolute;
+    top: -10px;
+    color: red;
+    font-size: 24px;
+    cursor: pointer;
   }
 </style>

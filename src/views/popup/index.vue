@@ -109,13 +109,9 @@ export default {
       this.selectedPopup = item;
       this.openInsertDialog();
     },
-    itemEdited(item) {
+    itemEdited() {
       this.insertDialog = false;
-      const index = this.list.findIndex((i) => {
-        return i.id === item.id;
-      });
-      this.list.splice(index, 1);
-      this.list.unshift(item);
+      this.list = this.getList();
     },
   },
 };
