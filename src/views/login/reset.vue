@@ -9,21 +9,9 @@
       label-position="left"
     >
       <h3 class="title">
-        {{ $t("login.title") }}
+        {{ $t("Reset Password") }}
       </h3>
       <lang-select class="set-language" />
-      <el-form-item prop="email">
-        <span class="svg-container">
-          <svg-icon icon-class="user" />
-        </span>
-        <el-input
-          v-model="loginForm.email"
-          name="email"
-          type="text"
-          auto-complete="on"
-          :placeholder="$t('login.email')"
-        />
-      </el-form-item>
       <el-form-item prop="password">
         <span class="svg-container">
           <svg-icon icon-class="password" />
@@ -34,7 +22,22 @@
           name="password"
           auto-complete="on"
           placeholder="password"
-          @keyup.enter.native="handleLogin"
+        />
+        <span class="show-pwd" @click="showPwd">
+          <svg-icon icon-class="eye" />
+        </span>
+      </el-form-item>
+      <el-form-item prop="password">
+        <span class="svg-container">
+          <svg-icon icon-class="password" />
+        </span>
+        <el-input
+          v-model="loginForm.password2"
+          :type="pwdType"
+          name="password2"
+          auto-complete="on"
+          placeholder="passwordConfirm"
+          @keyup.enter.native="handleResetPassword"
         />
         <span class="show-pwd" @click="showPwd">
           <svg-icon icon-class="eye" />
@@ -45,16 +48,7 @@
           :loading="loading"
           type="primary"
           style="width: 100%"
-          @click.native.prevent="handleLogin"
-        >
-          Zaloguj
-        </el-button>
-      </el-form-item>
-      <el-form-item>
-        <el-button
-          type="success"
-          style="width: 100%"
-          @click.native.prevent="handleReset"
+          @click.native.prevent="handleResetPassword"
         >
           Reset Password
         </el-button>
@@ -88,12 +82,14 @@ export default {
     };
     return {
       loginForm: {
-        email: "",
         password: "",
+        password2: "",
       },
       loginRules: {
-        email: [{ required: true, trigger: "blur", validator: validateEmail }],
         password: [
+          { required: true, trigger: "blur", validator: validatePass },
+        ],
+        password2: [
           { required: true, trigger: "blur", validator: validatePass },
         ],
       },
@@ -101,6 +97,7 @@ export default {
       pwdType: "password",
       redirect: undefined,
       otherQuery: {},
+      token: "",
     };
   },
   watch: {
@@ -115,7 +112,21 @@ export default {
       immediate: true,
     },
   },
+  created() {
+    this.getToken();
+  },
   methods: {
+    getToken() {
+      this.token = this.$route.query.token;
+
+      this.$store
+        .dispatch("user/getToken", this.token)
+        .then((res) => {})
+        .catch(() => {
+          this.$router.push({ path: "/login" });
+        });
+    },
+
     showPwd() {
       if (this.pwdType === "password") {
         this.pwdType = "";
@@ -123,23 +134,28 @@ export default {
         this.pwdType = "password";
       }
     },
-    handleLogin() {
+    handleResetPassword() {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           this.loading = true;
           csrf().then(() => {
             this.$store
-              .dispatch("user/login", this.loginForm)
+              .dispatch("user/resetPassword", {
+                password: this.loginForm.password,
+                token: this.token,
+              })
               .then((res) => {
-                // console.log('res', res);
-                this.$router.push(
-                  { path: this.redirect || "/", query: this.otherQuery },
-                  (onAbort) => {}
-                );
+                this.$message({
+                  message: "Le mot de passe a été mis à jour avec succès",
+                  type: "success",
+                  duration: 5 * 1000,
+                });
                 this.loading = false;
+                this.$router.push({ path: "/login" });
               })
               .catch(() => {
                 this.loading = false;
+                this.$router.push({ path: "/login" });
               });
           });
         } else {

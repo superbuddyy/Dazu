@@ -9,7 +9,7 @@
       label-position="left"
     >
       <h3 class="title">
-        {{ $t("login.title") }}
+        {{ $t("Envoyer un mail") }}
       </h3>
       <lang-select class="set-language" />
       <el-form-item prop="email">
@@ -24,7 +24,7 @@
           :placeholder="$t('login.email')"
         />
       </el-form-item>
-      <el-form-item prop="password">
+      <!-- <el-form-item prop="password">
         <span class="svg-container">
           <svg-icon icon-class="password" />
         </span>
@@ -39,7 +39,7 @@
         <span class="show-pwd" @click="showPwd">
           <svg-icon icon-class="eye" />
         </span>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item>
         <el-button
           :loading="loading"
@@ -47,16 +47,16 @@
           style="width: 100%"
           @click.native.prevent="handleLogin"
         >
-          Zaloguj
+          Envoyer un mail
         </el-button>
       </el-form-item>
       <el-form-item>
         <el-button
           type="success"
           style="width: 100%"
-          @click.native.prevent="handleReset"
+          @click.native.prevent="goLogin"
         >
-          Reset Password
+          Connexion de redirection
         </el-button>
       </el-form-item>
     </el-form>
@@ -79,30 +79,20 @@ export default {
         callback();
       }
     };
-    const validatePass = (rule, value, callback) => {
-      if (value.length < 4) {
-        callback(new Error("Password cannot be less than 4 digits"));
-      } else {
-        callback();
-      }
-    };
+
     return {
       loginForm: {
         email: "",
-        password: "",
       },
       loginRules: {
         email: [{ required: true, trigger: "blur", validator: validateEmail }],
-        password: [
-          { required: true, trigger: "blur", validator: validatePass },
-        ],
       },
       loading: false,
-      pwdType: "password",
       redirect: undefined,
       otherQuery: {},
     };
   },
+
   watch: {
     $route: {
       handler: function (route) {
@@ -116,26 +106,20 @@ export default {
     },
   },
   methods: {
-    showPwd() {
-      if (this.pwdType === "password") {
-        this.pwdType = "";
-      } else {
-        this.pwdType = "password";
-      }
-    },
     handleLogin() {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
           this.loading = true;
           csrf().then(() => {
             this.$store
-              .dispatch("user/login", this.loginForm)
+              .dispatch("user/sendmail", this.loginForm)
               .then((res) => {
-                // console.log('res', res);
-                this.$router.push(
-                  { path: this.redirect || "/", query: this.otherQuery },
-                  (onAbort) => {}
-                );
+                this.$message({
+                  message:
+                    "Allez au service de messagerie et vérifiez votre courrier électronique.",
+                  type: "success",
+                  duration: 5 * 1000,
+                });
                 this.loading = false;
               })
               .catch(() => {
@@ -148,8 +132,8 @@ export default {
         }
       });
     },
-    handleReset() {
-      this.$router.push({ path: "sendmail" });
+    goLogin() {
+      this.$router.push({ path: "login" });
     },
     getOtherQuery(query) {
       return Object.keys(query).reduce((acc, cur) => {

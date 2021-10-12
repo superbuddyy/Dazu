@@ -43,116 +43,126 @@ import newsletterRoutes from './modules/newsletter';
   }
 **/
 
-export const constantRoutes = [
-  {
-    path: '/redirect',
-    component: Layout,
-    hidden: true,
-    children: [
-      {
-        path: '/redirect/:path*',
-        component: () => import('@/views/redirect/index'),
-      },
-    ],
-  },
-  {
-    path: '/login',
-    component: () => import('@/views/login/index'),
-    hidden: true,
-  },
-  {
-    path: '/auth-redirect',
-    component: () => import('@/views/login/AuthRedirect'),
-    hidden: true,
-  },
-  {
-    path: '/404',
-    redirect: { name: 'Page404' },
-    component: () => import('@/views/error-page/404'),
-    hidden: true,
-  },
-  {
-    path: '/401',
-    component: () => import('@/views/error-page/401'),
-    hidden: true,
-  },
-  {
-    path: '',
-    component: Layout,
-    redirect: 'dashboard',
-    children: [
-      {
-        path: 'dashboard',
-        component: () => import('@/views/dashboard/index'),
-        name: 'Dashboard',
-        meta: { title: 'dashboard', icon: 'el-icon-info', noCache: false },
-      },
-    ],
-  },
-  {
-    path: '/black-list',
-    component: Layout,
-    redirect: 'black-list',
-    children: [
-      {
-        path: 'black-list',
-        component: () => import('@/views/black-list/List'),
-        name: 'BlackList',
-        meta: { title: 'Zakazane słowa', icon: 'el-icon-error', noCache: false },
-      },
-    ],
-  },
-  {
-    path: '/faq',
-    component: Layout,
-    redirect: 'faq',
-    children: [
-      {
-        path: 'faq',
-        component: () => import('@/views/faq/index'),
-        name: 'FAQ',
-        meta: { title: 'FAQ', icon: 'el-icon-question', noCache: true },
-      },
-    ],
-  },
-  {
-    path: '/popup',
-    component: Layout,
-    redirect: 'popup',
-    children: [
-      {
-        path: 'popup',
-        component: () => import('@/views/popup/index'),
-        name: 'Popup',
-        meta: { title: 'Popup', icon: 'el-icon-monitor', noCache: true },
-      },
-    ],
-  },
+export const constantRoutes = [{
+        path: '/redirect',
+        component: Layout,
+        hidden: true,
+        children: [{
+            path: '/redirect/:path*',
+            component: () =>
+                import ('@/views/redirect/index'),
+        }, ],
+    },
+    {
+        path: '/login',
+        component: () =>
+            import ('@/views/login/index'),
+        hidden: true,
+    },
+    {
+        path: '/sendmail',
+        component: () =>
+            import ('@/views/login/sendmail'),
+        hidden: true,
+    },
+    {
+        path: '/reset',
+        component: () =>
+            import ('@/views/login/reset'),
+        hidden: true,
+    },
+    {
+        path: '/auth-redirect',
+        component: () =>
+            import ('@/views/login/AuthRedirect'),
+        hidden: true,
+    },
+    {
+        path: '/404',
+        redirect: { name: 'Page404' },
+        component: () =>
+            import ('@/views/error-page/404'),
+        hidden: true,
+    },
+    {
+        path: '/401',
+        component: () =>
+            import ('@/views/error-page/401'),
+        hidden: true,
+    },
+    {
+        path: '',
+        component: Layout,
+        redirect: 'dashboard',
+        children: [{
+            path: 'dashboard',
+            component: () =>
+                import ('@/views/dashboard/index'),
+            name: 'Dashboard',
+            meta: { title: 'dashboard', icon: 'el-icon-info', noCache: false },
+        }, ],
+    },
+    {
+        path: '/black-list',
+        component: Layout,
+        redirect: 'black-list',
+        children: [{
+            path: 'black-list',
+            component: () =>
+                import ('@/views/black-list/List'),
+            name: 'BlackList',
+            meta: { title: 'Zakazane słowa', icon: 'el-icon-error', noCache: false },
+        }, ],
+    },
+    {
+        path: '/faq',
+        component: Layout,
+        redirect: 'faq',
+        children: [{
+            path: 'faq',
+            component: () =>
+                import ('@/views/faq/index'),
+            name: 'FAQ',
+            meta: { title: 'FAQ', icon: 'el-icon-question', noCache: true },
+        }, ],
+    },
+    {
+        path: '/popup',
+        component: Layout,
+        redirect: 'popup',
+        children: [{
+            path: 'popup',
+            component: () =>
+                import ('@/views/popup/index'),
+            name: 'Popup',
+            meta: { title: 'Popup', icon: 'el-icon-monitor', noCache: true },
+        }, ],
+    },
 ];
 
 export const asyncRoutes = [
-  adminRoutes,
-  offersRoutes,
-  blogRoutes,
-  subscriptionRoutes,
-  settingRoutes,
-  newsletterRoutes,
-  { path: '*', redirect: '/404', hidden: true },
+    adminRoutes,
+    offersRoutes,
+    blogRoutes,
+    subscriptionRoutes,
+    settingRoutes,
+    newsletterRoutes,
+    { path: '*', redirect: '/404', hidden: true },
 ];
 
 const createRouter = () => new Router({
-  // mode: 'history', // require service support
-  scrollBehavior: () => ({ y: 0 }),
-  base: process.env.MIX_LARAVUE_PATH,
-  routes: constantRoutes,
+    // mode: 'history', // require service support
+    scrollBehavior: () => ({ y: 0 }),
+    base: process.env.MIX_LARAVUE_PATH,
+    routes: constantRoutes,
 });
 
 const router = createRouter();
 
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
 export function resetRouter() {
-  const newRouter = createRouter();
-  router.matcher = newRouter.matcher; // reset router
+    const newRouter = createRouter();
+    router.matcher = newRouter.matcher; // reset router
 }
 
 export default router;
