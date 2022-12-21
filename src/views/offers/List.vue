@@ -125,6 +125,12 @@ export default {
         slug: '',
         status: '',
       },
+      packages:{
+        1:'Darmowe',
+        2:'Standard',
+        3:'Silver',
+        4:'Gold'
+      },
       query: {
         page: 1,
         limit: 15,
