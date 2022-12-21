@@ -131,6 +131,12 @@ export default {
         3:'Silver',
         4:'Gold'
       },
+      outlet: [
+        { value: 1, label: 'Darmowe', slug: 1 },
+        { value: 2, label: 'Standard', slug: 2 },
+        { value: 3, label: 'Silver', slug: 3 },
+        { value: 4, label: 'Gold', slug: 4 },
+      ],
       query: {
         page: 1,
         limit: 15,
