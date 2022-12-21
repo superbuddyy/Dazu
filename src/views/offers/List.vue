@@ -51,6 +51,14 @@
         </template>
       </el-table-column>
 
+      <el-table-column align="center" label="Package">
+        <template slot-scope="scope">
+          <el-select v-model="scope.row.subscription" value-key="scope.row.subscription" @change="changePackage(scope.row.slug, scope.row.subscription)">
+            <el-option v-for="item in outlet" :key="item.value" :label="item.label" :value="item.value" />
+          </el-select>
+        </template>
+      </el-table-column>
+
       <el-table-column align="center" label="Właściciel">
         <template slot-scope="scope">
           <span>{{ scope.row.user.email }}</span>
@@ -178,6 +186,22 @@ export default {
         type: 'success',
       });
     },
+    async changePackage(slug, status) {
+      await offerResource.changePackage(slug, status, null);
+      this.$notify({
+        title: 'Sukces',
+        message: 'Pakiet został zmieniony',
+        type: 'success',
+      });
+    },
+    async deleteRecord(slug) {
+      console.log(slug)
+      await offerResource.destroy(slug);
+      this.getList();
+    },
+    deleteCancel () {
+      console.log('delete cancel')
+    }
   },
 };
 </script>

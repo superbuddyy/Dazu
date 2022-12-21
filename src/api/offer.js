@@ -14,6 +14,14 @@ class OfferResource extends Resource {
     });
   }
 
+  changePackage(slug, status, note) {
+    return request({
+      url: '/' + this.uri + '/' + slug + '?subscription=' + status,
+      method: 'patch',
+      data: { note: note },
+    });
+  }
+  
   update(slug, resource) {
     return request({
       url: '/' + this.uri + '/' + slug,
