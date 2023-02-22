@@ -17,9 +17,9 @@
           <span>{{ scope.row.content }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="Akcja" width="350">
+      <el-table-column align="center" label="" width="350">
         <template slot-scope="scope">
-          <el-button v-permission="['manage user']" type="warning" size="small" icon="el-icon-edit" @click="edit(scope.row.slug)">
+          <el-button v-permission="['manage user']" type="warning" size="small" icon="el-icon-edit" @click="edit(scope.row.id)">
             Edytuj
           </el-button>
           <el-popconfirm
@@ -71,6 +71,9 @@ export default {
     handleFilter() {
       this.query.page = 1;
       this.getList();
+    },
+    edit(id) {
+      this.$router.push({ path: '/footer/edit-footer?post=' + id });
     },
     async getList() {
       this.loading = true;
