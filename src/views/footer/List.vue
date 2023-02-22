@@ -22,18 +22,11 @@
           <el-button v-permission="['manage user']" type="warning" size="small" icon="el-icon-edit" @click="edit(scope.row.id)">
             Edytuj
           </el-button>
-          <el-popconfirm
-            confirm-button-text="Tak"
-            cancel-button-text="Nie"
-            icon="el-icon-info"
-            icon-color="red"
-            title="Czy na pewno chcesz usunąć post?"
-            @onConfirm="deletePost(scope.row.id)"
-          >
-            <el-button slot="reference" v-permission="['manage user']" type="danger" size="small" icon="el-icon-delete">
-              Delete
-            </el-button>
-          </el-popconfirm>
+          
+          <el-button v-if="!scope.row.roles.includes('admin')" v-permission="['manage user']" type="danger" size="small" icon="el-icon-delete" @click="handleDelete(scope.row.id);">
+            Usuń
+          </el-button>
+         
         </template>
       </el-table-column>
     </el-table>
@@ -71,6 +64,28 @@ export default {
     handleFilter() {
       this.query.page = 1;
       this.getList();
+    },
+    handleDelete(id) {
+      this.$confirm('Czy na pewno chcesz usunąć użytkownika: ' + id + '?', 'Uwaga!', {
+        confirmButtonText: 'Tak',
+        cancelButtonText: 'Anuluj',
+        type: 'warning',
+      }).then(() => {
+        footerResource.destroy(id).then(response => {
+          this.$message({
+            type: 'success',
+            message: 'Poprawnie usunięto użytkownika',
+          });
+          this.handleFilter();
+        }).catch(error => {
+          console.log(error);
+        });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: 'Usuwanie anulowane',
+        });
+      });
     },
     edit(id) {
       this.$router.push({ path: '/footer/edit-footer?post=' + id });
