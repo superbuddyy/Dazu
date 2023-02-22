@@ -118,7 +118,7 @@ export default {
   methods: {
     getToken() {
       this.token = this.$route.query.token;
-
+      console.log(this.token);
       this.$store
         .dispatch("user/getToken", this.token)
         .then((res) => {})

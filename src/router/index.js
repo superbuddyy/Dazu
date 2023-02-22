@@ -19,6 +19,7 @@ import blogRoutes from './modules/blog';
 import subscriptionRoutes from './modules/subscription';
 import settingRoutes from './modules/setting';
 import newsletterRoutes from './modules/newsletter';
+import footersRoutes from './modules/footers';
 
 /**
  * Sub-menu only appear when children.length>=1
@@ -147,6 +148,7 @@ export const asyncRoutes = [
     subscriptionRoutes,
     settingRoutes,
     newsletterRoutes,
+    footersRoutes,
     { path: '*', redirect: '/404', hidden: true },
 ];
 

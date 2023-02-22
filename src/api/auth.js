@@ -43,7 +43,6 @@ export function getToken(data) {
 }
 
 export function resetPassword(data) {
-    console.log('dfddfdfdf', data.token);
     return request({
         url: '/auth/resetPassword',
         method: 'post',
