@@ -13,7 +13,7 @@
       </el-form-item>
       <el-form-item
         label="name"
-        prop="url"
+        prop="name"
         :rules="[
           { required: true, message: 'nazwa jest wymagane'},
         ]"

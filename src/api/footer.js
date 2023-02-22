@@ -3,7 +3,7 @@ import request from '@/utils/request';
 
 class PostResource extends Resource {
   constructor() {
-    super('admin/posts');
+    super('admin/footers');
   }
 
   store(resource) {
