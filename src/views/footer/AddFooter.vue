@@ -40,10 +40,10 @@
 
 <script>
 import { VueEditor } from 'vue2-editor';
-import PostResource from '@/api/footer';
-const postResource = new PostResource();
+import FooterResource from '@/api/footer';
+const footerResource = new FooterResource();
 export default {
-  name: 'AddPost',
+  name: 'AddFooter',
   components: {
     VueEditor,
   },
@@ -75,14 +75,14 @@ export default {
           formData.append('title', this.addPost.title);
           formData.append('content', this.addPost.content);
           formData.append('name', this.addPost.name);
-          await postResource.store(formData);
+          await footerResource.store(formData);
           this.addPost = {};
-          await this.$router.push({ path: '/footers/footers-list' });
+          await this.$router.push({ path: '/footer/footers-list' });
         }
       });
     },
     cancelForm() {
-      this.$router.push({ path: '/footers/footers-list' });
+      this.$router.push({ path: '/footer/footers-list' });
     },
     handlePreview(file) {
       this.previewDialogUrl = file.url;

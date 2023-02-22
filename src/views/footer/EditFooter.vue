@@ -50,10 +50,10 @@
 
 <script>
 import { VueEditor } from 'vue2-editor';
-import PostResource from '@/api/footer';
-const postResource = new PostResource();
+import FooterResource from '@/api/footer';
+const footerResource = new FooterResource();
 export default {
-  name: 'EditPost',
+  name: 'EditFooter',
   components: {
     VueEditor,
   },
@@ -75,7 +75,7 @@ export default {
   },
   methods: {
     async getPost() {
-      this.post = await postResource.get(this.$route.query.post);
+      this.post = await footerResource.get(this.$route.query.post);
     },
     submitForm() {
       this.$refs.post.validate(async(valid) => {
@@ -91,12 +91,10 @@ export default {
           const formData = new FormData();
           formData.append('title', this.post.title);
           formData.append('content', this.post.content);
-          formData.append('status', this.post.status);
-          if (this.post.image) {
-            formData.append('main_photo', this.post.image);
-          }
-          await postResource.update(this.$route.query.post, formData);
-          await this.$router.push({ path: '/footers/footers-list' });
+          formData.append('name', this.post.status);
+          
+          await footerResource.update(this.$route.query.post, formData);
+          await this.$router.push({ path: '/footer/footers-list' });
         }
       });
     },

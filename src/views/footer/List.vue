@@ -1,46 +1,22 @@
 <template>
   <div class="app-container">
-    <h1>Lista wpisów</h1>
+    <h1>Footers</h1>
     <el-table v-loading="loading" :data="list" border fit highlight-current-row style="width: 100%">
-      <el-table-column align="center" label="ID" width="80">
-        <template slot-scope="scope">
-          <span>
-            <a :href="frontendUrl + '/footer/' + scope.row.slug" target="_blank">{{ scope.row.id }}</a>
-          </span>
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" label="Nazwa">
+      <el-table-column align="center" label="Tytuł">
         <template slot-scope="scope">
           <span>{{ scope.row.title }}</span>
         </template>
       </el-table-column>
-
-      <el-table-column align="center" label="Status">
+      <el-table-column align="center" label="Name">
         <template slot-scope="scope">
-          <span v-if="scope.row.status === 'active'">Aktywny</span>
-          <span v-if="scope.row.status === 'in_active'">Nieaktywny</span>
+          <span>{{ scope.row.name }}</span>
         </template>
       </el-table-column>
-
-      <el-table-column align="center" label="Właściciel">
+      <el-table-column align="center" label="Content">
         <template slot-scope="scope">
-          <span>{{ scope.row.user.email }}</span>
+          <span>{{ scope.row.content }}</span>
         </template>
       </el-table-column>
-
-      <el-table-column align="center" label="Dodano">
-        <template slot-scope="scope">
-          <span>{{ scope.row.created_at }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" label="Zaktualizowano">
-        <template slot-scope="scope">
-          <span>{{ scope.row.updated_at }}</span>
-        </template>
-      </el-table-column>
-
       <el-table-column align="center" label="Akcja" width="350">
         <template slot-scope="scope">
           <el-button v-permission="['manage user']" type="warning" size="small" icon="el-icon-edit" @click="edit(scope.row.slug)">
@@ -68,14 +44,14 @@
 
 <script>
 import Pagination from '@/components/Pagination'; // Secondary package based on el-pagination
-import PostResource from '@/api/footer';
+import FooterResource from '@/api/footer';
 import waves from '@/directive/waves'; // Waves directive
 import permission from '@/directive/permission'; // Permission directive
 
-const postResource = new PostResource();
+const footerResource = new FooterResource();
 
 export default {
-  name: 'FootersList',
+  name: 'FooterList',
   components: { Pagination },
   directives: { waves, permission },
   data() {
@@ -88,32 +64,24 @@ export default {
       list: null,
     };
   },
-  computed: {
-    frontendUrl() {
-      return process.env.VUE_APP_FRONTEND_URL;
-    },
-  },
   created() {
     this.getList();
   },
   methods: {
-    edit(slug) {
-      this.$router.push({ path: '/footers/edit-footer?footer=' + slug });
-    },
     handleFilter() {
       this.query.page = 1;
       this.getList();
     },
     async getList() {
       this.loading = true;
-      const { data, total } = await postResource.list(this.query);
+      const { data, total } = await footerResource.list(this.query);
       this.list = data;
       this.total = total;
       this.loading = false;
     },
     async deletePost(id) {
       this.loading = true;
-      await postResource.destroy(id);
+      await footerResource.destroy(id);
       this.list = this.list.filter(function(post) {
         return post.id !== id;
       });
