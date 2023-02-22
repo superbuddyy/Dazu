@@ -19,11 +19,11 @@
       </el-table-column>
       <el-table-column align="center" label="" width="350">
         <template slot-scope="scope">
-          <el-button v-permission="['manage user']" type="warning" size="small" icon="el-icon-edit" @click="edit(scope.row.id)">
+          <el-button type="warning" size="small" icon="el-icon-edit" @click="edit(scope.row.id)">
             Edytuj
           </el-button>
           
-          <el-button v-if="!scope.row.roles.includes('admin')" v-permission="['manage user']" type="danger" size="small" icon="el-icon-delete" @click="handleDelete(scope.row.id);">
+          <el-button type="danger" size="small" icon="el-icon-delete" @click="handleDelete(scope.row.id);">
             Usuń
           </el-button>
          
