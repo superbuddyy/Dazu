@@ -91,7 +91,7 @@ export default {
           const formData = new FormData();
           formData.append('title', this.post.title);
           formData.append('content', this.post.content);
-          formData.append('name', this.post.status);
+          formData.append('name', this.post.name);
           
           await footerResource.update(this.$route.query.post, formData);
           await this.$router.push({ path: '/footer/footers-list' });
