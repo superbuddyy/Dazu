@@ -230,9 +230,9 @@ export default {
       query: {
         page: 1,
         limit: 15,
-        // order: 'DESC',
-        // order_by: 'created_at',
-        // filter: 'all'
+        order: 'DESC',
+        order_by: 'created_at',
+        filter: 'all'
       },
       list: null,
     };
@@ -247,13 +247,13 @@ export default {
   },
   methods: {
     changeOfferList () {
-      // if(this.changeOrder == 'update'){
-      //   this.query.order = 'DESC'
-      //   this.query.order_by = 'updateed_at'
-      // }else{
-      //   this.query.order = this.changeOrder
-      //   this.query.order_by = 'created_at'
-      // }
+      if(this.changeOrder == 'update'){
+        this.query.order = 'DESC'
+        this.query.order_by = 'updateed_at'
+      }else{
+        this.query.order = this.changeOrder
+        this.query.order_by = 'created_at'
+      }
       this.getList()
     },
     searchOfferList () {
@@ -263,9 +263,9 @@ export default {
       // if (this.changeOrder) {
       //   this.query.sort = this.changeOrder
       // }
-      // if (this.current_agent) {
-      //   this.query.filter = this.current_agent
-      // }
+      if (this.current_agent) {
+        this.query.filter = this.current_agent
+      }
       this.getList()
     },
     rowClass({ row, rowIndex }) {
