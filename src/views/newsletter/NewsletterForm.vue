@@ -17,7 +17,10 @@
           :value="form.content"
           @set-value="form.content = $event"
         />
-
+        <el-radio-group v-model="form.receiver">
+          <el-radio-button label="all" />
+          <el-radio-button label="subscribers" />
+        </el-radio-group>
       </el-form>
       <el-button type="primary" style="float: right" @click="send">Wyślij</el-button>
     </div>
@@ -44,6 +47,7 @@ export default {
       form: {
         title: '',
         content: '',
+        receiver: 'all',
       },
       rules: {
         category: { required: true, message: 'Kategoria jest wymagana', trigger: 'change' },
@@ -62,6 +66,7 @@ export default {
       this.form = {
         title: '',
         content: '',
+        receiver: 'all',
       };
       await this.$router.push({ path: '/newsletter/newsletter' });
     },
