@@ -274,7 +274,7 @@ export default {
         this.$refs['userForm'].clearValidate();
       });
     },
-    handleDelete(id, email) {
+    async handleDelete(id, email) {
       this.user_email = email;
       this.user_id = id;
       this.dialogDeleteVisible = true;
