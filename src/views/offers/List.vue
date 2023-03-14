@@ -159,23 +159,23 @@ export default {
   directives: { waves, permission },
   data() {
     return {
-      changeOrder: null,
-      current_agent: '',
+      changeOrder: 'DESC',
+      current_agent: 1,
       sortOptions: [
         {
           id: 1,
           name: 'Najnowsze',
-          value: 'desc'
+          value: 'DESC'
         },
         {
           id: 2,
           name: 'Najstarsze',
-          value: 'asc'
+          value: 'ASC'
         },
         {
           id: 3,
           name: 'Aktywne',
-          value: 'recent'
+          value: 'update'
         },
       ],
       agents: [
@@ -221,7 +221,8 @@ export default {
       query: {
         page: 1,
         limit: 15,
-        sort: '',
+        order: '',
+        order_by: '',
         keyword: '',
         agent_id: ''
       },
@@ -238,16 +239,19 @@ export default {
   },
   methods: {
     changeOfferList () {
-      this.query.sort = this.changeOrder
-      if (this.searchTxt) {
-        this.query.keyword = this.searchTxt
+      if(this.changeOrder == 'update'){
+        this.query.order = 'DESC'
+        this.query.order_by = 'updateed_at'
+      }else{
+        this.query.order = this.changeOrder
+        this.query.order_by = 'created_at'
       }
       this.getOffers()
     },
     searchOfferList () {
-      if (this.searchTxt) {
-        this.query.keyword = this.searchTxt
-      }
+      // if (this.searchTxt) {
+      //   this.query.keyword = this.searchTxt
+      // }
       if (this.changeOrder) {
         this.query.sort = this.changeOrder
       }
