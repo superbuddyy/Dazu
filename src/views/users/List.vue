@@ -89,7 +89,7 @@
           <el-button type="danger" @click="dialogDeleteVisible=false">
             Anuluj
           </el-button>
-          <el-button type="primary" @click="confirmDelete">
+          <el-button type="primary" @click="confirmDeletion">
             Zapisz
           </el-button>
         </div>
@@ -140,6 +140,8 @@ export default {
       dialogFormVisible: false,
       dialogPermissionVisible: false,
       dialogPermissionLoading: false,
+      dialogDeleteVisible: false,
+      dialogDeleteLoading: false,
       currentUserId: 0,
       currentUser: {
         name: '',
@@ -272,6 +274,11 @@ export default {
       });
     },
     handleDelete(id) {
+      this.dialogDeleteLoading = true;
+      this.dialogDeleteVisible = true;
+      this.dialogDeleteLoading = false;
+    },
+    confirmDeletion(){
       if(this.delayedDeletion){
         user = {
           'delayedDeletion': true
