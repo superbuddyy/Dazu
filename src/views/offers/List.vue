@@ -23,7 +23,7 @@
           v-for="agent in agents"
           :key="agent.id"
           :label="agent.name"
-          :value="agent.id"
+          :value="agent.value"
         >
           {{ agent.name }}
         </el-option>
@@ -160,7 +160,7 @@ export default {
   data() {
     return {
       changeOrder: 'DESC',
-      current_agent: 1,
+      current_agent: 'all',
       sortOptions: [
         {
           id: 1,
@@ -181,23 +181,32 @@ export default {
       agents: [
         {
           id: 1,
-          name: 'all'
+          name: 'all',
+          value: 'all'
         },
         {
           id: 2,
-          name: 'active'
+          name: 'active',
+          value: 'active'
+
         },
         {
           id: 3,
-          name: 'deactivated'
+          name: 'deactivated',
+          value: 'deactivated'
+
         },
         {
           id: 4,
-          name: 'inactive'
+          name: 'inactive',
+          value: 'inactive'
+
         },
         {
           id: 5,
-          name: 'rejected'
+          name: 'rejected',
+          value: 'rejected'
+
         },
       ],
       dialogVisible: false,
@@ -223,8 +232,7 @@ export default {
         limit: 15,
         order: '',
         order_by: '',
-        keyword: '',
-        agent_id: ''
+        filter: ''
       },
       list: null,
     };
@@ -246,19 +254,19 @@ export default {
         this.query.order = this.changeOrder
         this.query.order_by = 'created_at'
       }
-      this.getOffers()
+      this.getList()
     },
     searchOfferList () {
       // if (this.searchTxt) {
       //   this.query.keyword = this.searchTxt
       // }
-      if (this.changeOrder) {
-        this.query.sort = this.changeOrder
-      }
+      // if (this.changeOrder) {
+      //   this.query.sort = this.changeOrder
+      // }
       if (this.current_agent) {
-        this.query.agent_id = this.current_agent
+        this.query.filter = this.current_agent
       }
-      this.getOffers()
+      this.getList()
     },
     rowClass({ row, rowIndex }) {
       if (row.visible_from_date !== null && row.status === 'active') {
