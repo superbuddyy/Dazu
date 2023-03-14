@@ -281,7 +281,7 @@ export default {
     },
     confirmDeletion(){
       if(this.delayedDeletion){
-        user = {
+        let user = {
           'delayedDeletion': true
         }
         userResource.update(this.user_id, user).then(response => {
@@ -304,6 +304,8 @@ export default {
           console.log(error);
         });
       }
+      this.dialogDeleteVisible = false;
+
     },
     async handleEditPermissions(id) {
       this.currentUserId = id;
