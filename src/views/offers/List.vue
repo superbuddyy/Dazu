@@ -230,9 +230,9 @@ export default {
       query: {
         page: 1,
         limit: 15,
-        order: '',
-        order_by: '',
-        filter: ''
+        order: 'DESC',
+        order_by: 'created_at',
+        filter: 'all'
       },
       list: null,
     };
