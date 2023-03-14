@@ -7,6 +7,46 @@
         {{ $t('table.search') }}
       </el-button>
     </div>
+
+    <span>
+        filter: 
+      </span>
+      <el-select
+        v-model="current_agent"
+        class="mr-5"
+        filterable
+        clearable
+        placeholder="Wybierz tagi dla swojego artykułu"
+        @change="searchOfferList()"
+      >
+        <el-option
+          v-for="agent in agents"
+          :key="agent.id"
+          :label="agent.name"
+          :value="agent.id"
+        >
+          {{ agent.name }}
+        </el-option>
+      </el-select>
+      <span>
+        sort: 
+      </span>
+      <el-select
+        v-model="changeOrder"
+        class="location-input"
+        filterable
+        placeholder="Wybierz opcje sortowania"
+        clearable
+        @change="changeOfferList"
+      >
+        <el-option
+          v-for="loc in sortOptions"
+          :key="loc.id"
+          :label="loc.name"
+          :value="loc.value"
+        />
+      </el-select>
+
     <el-table v-loading="loading" :data="list" border fit highlight-current-row style="width: 100%" :row-class-name="rowClass">
       <el-table-column align="center" label="ID" width="80">
         <template slot-scope="scope">
@@ -119,6 +159,47 @@ export default {
   directives: { waves, permission },
   data() {
     return {
+      changeOrder: null,
+      current_agent: '',
+      sortOptions: [
+        {
+          id: 1,
+          name: 'Najnowsze',
+          value: 'desc'
+        },
+        {
+          id: 2,
+          name: 'Najstarsze',
+          value: 'asc'
+        },
+        {
+          id: 3,
+          name: 'Aktywne',
+          value: 'recent'
+        },
+      ],
+      agents: [
+        {
+          id: 1,
+          name: 'all'
+        },
+        {
+          id: 2,
+          name: 'active'
+        },
+        {
+          id: 3,
+          name: 'deactivated'
+        },
+        {
+          id: 4,
+          name: 'inactive'
+        },
+        {
+          id: 5,
+          name: 'rejected'
+        },
+      ],
       dialogVisible: false,
       form: {
         note: '',
@@ -140,6 +221,9 @@ export default {
       query: {
         page: 1,
         limit: 15,
+        sort: '',
+        keyword: '',
+        agent_id: ''
       },
       list: null,
     };
@@ -153,6 +237,25 @@ export default {
     this.getList();
   },
   methods: {
+    changeOfferList () {
+      this.query.sort = this.changeOrder
+      if (this.searchTxt) {
+        this.query.keyword = this.searchTxt
+      }
+      this.getOffers()
+    },
+    searchOfferList () {
+      if (this.searchTxt) {
+        this.query.keyword = this.searchTxt
+      }
+      if (this.changeOrder) {
+        this.query.sort = this.changeOrder
+      }
+      if (this.current_agent) {
+        this.query.agent_id = this.current_agent
+      }
+      this.getOffers()
+    },
     rowClass({ row, rowIndex }) {
       if (row.visible_from_date !== null && row.status === 'active') {
         return 'warning-row';
