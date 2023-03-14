@@ -75,7 +75,7 @@
       </div>
     </el-dialog>
     <el-dialog :visible.sync="dialogDeleteVisible" :title="'delete ' + user_email">
-      <div class="form-container">
+      <div v-if="user_email" v-loading="dialogDeleteLoading" class="form-container">
         <div class="permissions-container">
           <div class="block">
             <el-checkbox
@@ -142,6 +142,7 @@ export default {
       dialogFormVisible: false,
       dialogPermissionVisible: false,
       dialogPermissionLoading: false,
+      dialogDeleteLoading: false,
       dialogDeleteVisible: false,
       currentUserId: 0,
       currentUser: {
@@ -275,9 +276,11 @@ export default {
       });
     },
     async handleDelete(id, email) {
+      this.dialogDeleteVisible = true;
+      this.dialogDeleteLoading = true;
       this.user_email = email;
       this.user_id = id;
-      this.dialogDeleteVisible = true;
+      this.dialogDeleteLoading = false;
     },
     confirmDeletion(){
       if(this.delayedDeletion){
