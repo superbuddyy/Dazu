@@ -17,10 +17,12 @@
           :value="form.content"
           @set-value="form.content = $event"
         />
-        <el-radio-group v-model="form.receiver">
-          <el-radio-button label="all" />
-          <el-radio-button label="subscribers" />
-        </el-radio-group>
+        <el-form-item label="Receiver" prop="receiver">
+          <el-radio-group v-model="form.receiver">
+            <el-radio-button label="all" />
+            <el-radio-button label="subscribers" />
+          </el-radio-group>
+        </el-form-item>
       </el-form>
       <el-button type="primary" style="float: right" @click="send">Wyślij</el-button>
     </div>
