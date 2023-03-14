@@ -276,10 +276,12 @@ export default {
       });
     },
     async handleDelete(id, email) {
+
       this.dialogDeleteVisible = true;
       this.dialogDeleteLoading = true;
       this.user_email = email;
       this.user_id = id;
+      console.log(user_id + id)
       this.dialogDeleteLoading = false;
     },
     confirmDeletion(){
