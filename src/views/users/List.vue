@@ -74,6 +74,27 @@
         </div>
       </div>
     </el-dialog>
+    <el-dialog :visible.sync="dialogDeleteVisible" :title="'Edytuj Uprawnienia - ' + currentUser.name">
+      <div v-if="currentUser.name" v-loading="dialogDeleteLoading" class="form-container">
+        <div class="permissions-container">
+          <div class="block">
+            <el-checkbox
+              v-model="delayedDeletion"
+            >  delete after six months
+            </el-checkbox>
+          </div>
+          <div class="clear-left" />
+        </div>
+        <div style="text-align:right;">
+          <el-button type="danger" @click="dialogDeleteVisible=false">
+            Anuluj
+          </el-button>
+          <el-button type="primary" @click="confirmDelete">
+            Zapisz
+          </el-button>
+        </div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -101,6 +122,7 @@ export default {
       }
     };
     return {
+      delayedDeletion: false,
       list: null,
       total: 0,
       loading: true,
@@ -249,12 +271,21 @@ export default {
         this.$refs['userForm'].clearValidate();
       });
     },
-    handleDelete(id, email) {
-      this.$confirm('Czy na pewno chcesz usunąć użytkownika: ' + email + '?', 'Uwaga!', {
-        confirmButtonText: 'Tak',
-        cancelButtonText: 'Anuluj',
-        type: 'warning',
-      }).then(() => {
+    handleDelete(id) {
+      if(this.delayedDeletion){
+        user = {
+          'delayedDeletion': true
+        }
+        userResource.update(id, this.user).then(response => {
+          this.$message({
+            type: 'success',
+            message: 'this user will be deleted after 6 months',
+          });
+          this.handleFilter();
+        }).catch(error => {
+          console.log(error);
+        });
+      }else{
         userResource.destroy(id).then(response => {
           this.$message({
             type: 'success',
@@ -264,12 +295,7 @@ export default {
         }).catch(error => {
           console.log(error);
         });
-      }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: 'Usuwanie anulowane',
-        });
-      });
+      }
     },
     async handleEditPermissions(id) {
       this.currentUserId = id;
