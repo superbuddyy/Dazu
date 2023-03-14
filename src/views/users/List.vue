@@ -74,8 +74,8 @@
         </div>
       </div>
     </el-dialog>
-    <el-dialog :visible.sync="dialogDeleteVisible" :title="'Edytuj Uprawnienia - ' + currentUser.name">
-      <div v-if="currentUser.name" v-loading="dialogDeleteLoading" class="form-container">
+    <el-dialog :visible.sync="dialogDeleteVisible" :title="'delete ' + user_email">
+      <div class="form-container">
         <div class="permissions-container">
           <div class="block">
             <el-checkbox
@@ -122,6 +122,7 @@ export default {
       }
     };
     return {
+      user_email: '',
       delayedDeletion: false,
       list: null,
       total: 0,
@@ -273,7 +274,9 @@ export default {
         this.$refs['userForm'].clearValidate();
       });
     },
-    handleDelete(id) {
+    handleDelete(id, email) {
+      this.user_email = email;
+      this.user_id = id;
       this.dialogDeleteLoading = true;
       this.dialogDeleteVisible = true;
       this.dialogDeleteLoading = false;
@@ -283,7 +286,7 @@ export default {
         user = {
           'delayedDeletion': true
         }
-        userResource.update(id, this.user).then(response => {
+        userResource.update(this.user_id, user).then(response => {
           this.$message({
             type: 'success',
             message: 'this user will be deleted after 6 months',
@@ -293,7 +296,7 @@ export default {
           console.log(error);
         });
       }else{
-        userResource.destroy(id).then(response => {
+        userResource.destroy(this.user_id).then(response => {
           this.$message({
             type: 'success',
             message: 'Poprawnie usunięto użytkownika',
