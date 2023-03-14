@@ -122,6 +122,7 @@ export default {
       }
     };
     return {
+      user_id: '',
       user_email: '',
       delayedDeletion: false,
       list: null,
@@ -142,7 +143,6 @@ export default {
       dialogPermissionVisible: false,
       dialogPermissionLoading: false,
       dialogDeleteVisible: false,
-      dialogDeleteLoading: false,
       currentUserId: 0,
       currentUser: {
         name: '',
@@ -277,9 +277,7 @@ export default {
     handleDelete(id, email) {
       this.user_email = email;
       this.user_id = id;
-      this.dialogDeleteLoading = true;
       this.dialogDeleteVisible = true;
-      this.dialogDeleteLoading = false;
     },
     confirmDeletion(){
       if(this.delayedDeletion){
