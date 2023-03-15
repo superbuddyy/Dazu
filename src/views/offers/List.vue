@@ -230,9 +230,9 @@ export default {
       query: {
         page: 1,
         limit: 15,
-        order: 'DESC',
-        order_by: 'created_at',
-        filter: 'all'
+        orderUI: 'DESC',
+        order_byUI: 'created_at',
+        filterUI: 'all'
       },
       list: null,
     };
@@ -248,11 +248,11 @@ export default {
   methods: {
     changeOfferList () {
       if(this.changeOrder == 'update'){
-        this.query.order = 'DESC'
-        this.query.order_by = 'updateed_at'
+        this.query.orderUI = 'DESC'
+        this.query.order_byUI = 'updateed_at'
       }else{
-        this.query.order = this.changeOrder
-        this.query.order_by = 'created_at'
+        this.query.orderUI = this.changeOrder
+        this.query.order_byUI = 'created_at'
       }
       this.getList()
     },
@@ -264,7 +264,7 @@ export default {
       //   this.query.sort = this.changeOrder
       // }
       if (this.current_agent) {
-        this.query.filter = this.current_agent
+        this.query.filterUI = this.current_agent
       }
       this.getList()
     },
