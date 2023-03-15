@@ -230,9 +230,9 @@ export default {
       query: {
         page: 1,
         limit: 15,
-        orderUI: 'DESC',
-        order_byUI: 'created_at',
-        filterUI: 'all'
+        order: 'DESC',
+        order_by: 'created_at',
+        filter: 'all'
       },
       list: null,
     };
@@ -248,11 +248,11 @@ export default {
   methods: {
     changeOfferList () {
       if(this.changeOrder == 'update'){
-        this.query.orderUI = 'DESC'
-        this.query.order_byUI = 'updateed_at'
+        this.query.order = 'DESC'
+        this.query.order_by = 'updated_at'
       }else{
-        this.query.orderUI = this.changeOrder
-        this.query.order_byUI = 'created_at'
+        this.query.order = this.changeOrder
+        this.query.order_by = 'created_at'
       }
       this.getList()
     },
