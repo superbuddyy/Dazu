@@ -7,7 +7,7 @@
         {{ $t('table.search') }}
       </el-button>
     </div>
-
+    <div class="filter-container">
     <span>
         filter: 
       </span>
@@ -46,6 +46,7 @@
           :value="loc.value"
         />
       </el-select>
+    </div>
 
     <el-table v-loading="loading" :data="list" border fit highlight-current-row style="width: 100%" :row-class-name="rowClass">
       <el-table-column align="center" label="ID" width="80">
@@ -174,7 +175,7 @@ export default {
         },
         {
           id: 3,
-          name: 'Aktywne',
+          name: 'recently updated',
           value: 'update'
         },
       ],
