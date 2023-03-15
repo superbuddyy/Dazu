@@ -232,7 +232,7 @@ export default {
         limit: 15,
         order: 'DESC',
         order_by: 'created_at',
-        filter: 'all'
+        filterUI: 'all'
       },
       list: null,
     };
