@@ -319,10 +319,7 @@ export default {
     },
     confirmDeletion(){
       if(this.delayedDeletion){
-        let offer = {
-          'delayedDeletion': true
-        }
-        offerResource.update(this.offer_slug, offer).then(response => {
+        offerResource.changeStatus(this.offer_slug, offer).then(response => {
           this.$message({
             type: 'success',
             message: 'ta oferta zostanie usunięta po 6 miesiącach',
@@ -332,7 +329,7 @@ export default {
           console.log(error);
         });
       }else{
-        offerResource.destroy(this.offer_slug).then(response => {
+        offerResource.delayedDelete(this.offer_slug).then(response => {
           this.$message({
             type: 'success',
             message: 'Poprawnie usunięto użytkownika',

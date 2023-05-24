@@ -30,6 +30,14 @@ class OfferResource extends Resource {
       headers: { 'Content-Type': 'multipart/form-data' },
     });
   }
+
+  delayedDelete(slug) {
+    return request({
+      url: '/' + this.uri + '/' + slug + '?delayedDelete=6',
+      method: 'patch',
+      data: { note: null },
+    });
+  }
 }
 
 export { OfferResource as default };
