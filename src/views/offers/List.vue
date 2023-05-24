@@ -123,7 +123,7 @@
           <el-button v-permission="['manage offer']" type="warning" size="small" icon="el-icon-edit" @click="edit(scope.row.slug)">
             Edytuj
           </el-button>
-          <el-button v-permission="['manage offer']" type="danger" size="small" icon="el-icon-delete" @click="handleDelete(scope.row.id, scope.row.title);">
+          <el-button v-permission="['manage offer']" type="danger" size="small" icon="el-icon-delete" @click="handleDelete(scope.row.slug, scope.row.title);">
             Usuń
           </el-button>
         </template>
@@ -181,7 +181,7 @@ export default {
   directives: { waves, permission },
   data() {
     return {
-      offer_id: '',
+      offer_slug: '',
       offer_title: '',
       changeOrder: 'DESC',
       current_agent: 'all',
@@ -310,11 +310,11 @@ export default {
       this.query.page = 1;
       this.getList();
     },
-    async handleDelete(id, title) {
+    async handleDelete(slug, title) {
       this.dialogDeleteVisible = true;
       this.dialogDeleteLoading = true;
       this.offer_title = title;
-      this.offer_id = id;
+      this.offer_slug = slug;
       this.dialogDeleteLoading = false;
     },
     confirmDeletion(){
@@ -322,7 +322,7 @@ export default {
         let offer = {
           'delayedDeletion': true
         }
-        offerResource.update(this.offer_title, offer).then(response => {
+        offerResource.update(this.offer_slug, offer).then(response => {
           this.$message({
             type: 'success',
             message: 'ta oferta zostanie usunięta po 6 miesiącach',
@@ -332,7 +332,7 @@ export default {
           console.log(error);
         });
       }else{
-        offerResource.destroy(this.offer_title).then(response => {
+        offerResource.destroy(this.offer_slug).then(response => {
           this.$message({
             type: 'success',
             message: 'Poprawnie usunięto użytkownika',
