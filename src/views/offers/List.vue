@@ -322,7 +322,7 @@ export default {
         let offer = {
           'delayedDeletion': true
         }
-        offerResource.update(this.offer_id, offer).then(response => {
+        offerResource.update(this.offer_title, offer).then(response => {
           this.$message({
             type: 'success',
             message: 'ta oferta zostanie usunięta po 6 miesiącach',
@@ -332,7 +332,7 @@ export default {
           console.log(error);
         });
       }else{
-        offerResource.destroy(this.offer_id).then(response => {
+        offerResource.destroy(this.offer_title).then(response => {
           this.$message({
             type: 'success',
             message: 'Poprawnie usunięto użytkownika',
