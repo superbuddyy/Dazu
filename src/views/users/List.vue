@@ -290,7 +290,7 @@ export default {
         userResource.update(this.user_id, user).then(response => {
           this.$message({
             type: 'success',
-            message: 'this user will be deleted after 6 months',
+            message: 'ten użytkownik zostanie usunięty po 6 miesiącach',
           });
           this.handleFilter();
         }).catch(error => {
