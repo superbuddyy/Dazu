@@ -123,7 +123,7 @@
           <el-button v-permission="['manage offer']" type="warning" size="small" icon="el-icon-edit" @click="edit(scope.row.slug)">
             Edytuj
           </el-button>
-          <el-button v-permission="['manage offer']" type="danger" size="small" icon="el-icon-delete">
+          <el-button v-if="!scope.row.roles.includes('admin')" v-permission="['manage offer']" type="danger" size="small" icon="el-icon-delete" @click="handleDelete(scope.row.id, scope.row.title);">
             Usuń
           </el-button>
         </template>
@@ -143,6 +143,27 @@
         <el-button type="primary" @click="changeStatusWithNote()">Zapisz</el-button>
       </span>
     </el-dialog>
+    <el-dialog :visible.sync="dialogDeleteVisible" :title="'delete ' + offer_email">
+      <div v-if="offer_email" v-loading="dialogDeleteLoading" class="form-container">
+        <div class="permissions-container">
+          <div class="block">
+            <el-checkbox
+              v-model="delayedDeletion"
+            >  delete after six months
+            </el-checkbox>
+          </div>
+          <div class="clear-left" />
+        </div>
+        <div style="text-align:right;">
+          <el-button type="danger" @click="dialogDeleteVisible=false">
+            Anuluj
+          </el-button>
+          <el-button type="primary" @click="confirmDeletion">
+            Zapisz
+          </el-button>
+        </div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -160,6 +181,8 @@ export default {
   directives: { waves, permission },
   data() {
     return {
+      offer_id: '',
+      offer_email: '',
       changeOrder: 'DESC',
       current_agent: 'all',
       sortOptions: [
@@ -211,6 +234,8 @@ export default {
         },
       ],
       dialogVisible: false,
+      dialogDeleteLoading: false,
+      dialogDeleteVisible: false,
       form: {
         note: '',
         slug: '',
@@ -283,6 +308,41 @@ export default {
     handleFilter() {
       this.query.page = 1;
       this.getList();
+    },
+    async handleDelete(id, title) {
+      this.dialogDeleteVisible = true;
+      this.dialogDeleteLoading = true;
+      this.offer_title = title;
+      this.offer_id = id;
+      this.dialogDeleteLoading = false;
+    },
+    confirmDeletion(){
+      if(this.delayedDeletion){
+        let offer = {
+          'delayedDeletion': true
+        }
+        offerResource.update(this.offer_id, offer).then(response => {
+          this.$message({
+            type: 'success',
+            message: 'ta oferta zostanie usunięta po 6 miesiącach',
+          });
+          this.handleFilter();
+        }).catch(error => {
+          console.log(error);
+        });
+      }else{
+        offerResource.destroy(this.offer_id).then(response => {
+          this.$message({
+            type: 'success',
+            message: 'Poprawnie usunięto użytkownika',
+          });
+          this.handleFilter();
+        }).catch(error => {
+          console.log(error);
+        });
+      }
+      this.dialogDeleteVisible = false;
+
     },
     async getList() {
       this.loading = true;
