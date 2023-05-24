@@ -143,8 +143,8 @@
         <el-button type="primary" @click="changeStatusWithNote()">Zapisz</el-button>
       </span>
     </el-dialog>
-    <el-dialog :visible.sync="dialogDeleteVisible" :title="'delete ' + offer_email">
-      <div v-if="offer_email" v-loading="dialogDeleteLoading" class="form-container">
+    <el-dialog :visible.sync="dialogDeleteVisible" :title="'delete ' + offer_title">
+      <div v-if="offer_title" v-loading="dialogDeleteLoading" class="form-container">
         <div class="permissions-container">
           <div class="block">
             <el-checkbox
@@ -182,7 +182,7 @@ export default {
   data() {
     return {
       offer_id: '',
-      offer_email: '',
+      offer_title: '',
       changeOrder: 'DESC',
       current_agent: 'all',
       sortOptions: [
