@@ -236,6 +236,7 @@ export default {
       dialogVisible: false,
       dialogDeleteLoading: false,
       dialogDeleteVisible: false,
+      delayedDeletion: false,
       form: {
         note: '',
         slug: '',
