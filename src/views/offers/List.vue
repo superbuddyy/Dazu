@@ -123,7 +123,7 @@
           <el-button v-permission="['manage offer']" type="warning" size="small" icon="el-icon-edit" @click="edit(scope.row.slug)">
             Edytuj
           </el-button>
-          <el-button v-if="!scope.row.roles.includes('admin')" v-permission="['manage offer']" type="danger" size="small" icon="el-icon-delete" @click="handleDelete(scope.row.id, scope.row.title);">
+          <el-button v-permission="['manage offer']" type="danger" size="small" icon="el-icon-delete" @click="handleDelete(scope.row.id, scope.row.title);">
             Usuń
           </el-button>
         </template>
